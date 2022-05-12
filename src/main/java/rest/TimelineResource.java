@@ -28,6 +28,16 @@ public class TimelineResource {
     //ikke testet
     //id'et skal bruges til at oprette timelinen
     //det skal sættes i frontenden - laves med en metode
+
+//get amount of persons
+    @Path("test")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public String test() {
+        return "{hello}";  
+    }
+
+
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/create")
