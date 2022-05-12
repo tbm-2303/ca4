@@ -13,7 +13,7 @@ public class TimelineDTO {
     private String description;
     private String startDate;
     private String endDate;
-    private List<Spot> spotList = new ArrayList<>();
+    private List<SpotDTO> spotDTOList = new ArrayList<>();
     private UserDTO userDTO;
 
     public TimelineDTO() {
@@ -33,8 +33,11 @@ public class TimelineDTO {
         this.description = timeline.getDescription();
         this.startDate = timeline.getStartDate();
         this.endDate = timeline.getEndDate();
-        this.spotList = timeline.getSpotList();
         this.userDTO = new UserDTO(timeline.getUser());
+        for (Spot spot : timeline.getSpotList()) {
+            this.spotDTOList.add(new SpotDTO(spot));
+        }
+
     }
 
     public static List<TimelineDTO> getDtos(List<Timeline> timelines) {
@@ -85,12 +88,12 @@ public class TimelineDTO {
         this.endDate = endDate;
     }
 
-    public List<Spot> getSpotList() {
-        return spotList;
+    public List<SpotDTO> getSpotList() {
+        return spotDTOList;
     }
 
-    public void setSpotList(List<Spot> spotList) {
-        this.spotList = spotList;
+    public void setSpotList(List<SpotDTO> spotList) {
+        this.spotDTOList = spotList;
     }
 
     public UserDTO getUser() {
@@ -109,7 +112,7 @@ public class TimelineDTO {
                 ", description='" + description + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
-                ", spotList=" + spotList +
+                ", spotList=" + spotDTOList +
                 ", user=" + userDTO +
                 '}';
     }

@@ -40,12 +40,10 @@ public class TimelineResource {
     @POST
     @Produces({MediaType.APPLICATION_JSON})
     @Consumes({MediaType.APPLICATION_JSON})
-    @Path("/create")
-    @RolesAllowed("user")
-    public Response createTimeline(String timeline){
-        String thisuser = securityContext.getUserPrincipal().getName();
+    @Path("/create/{userName}")
+    public Response createTimeline(@PathParam("userName") String username, String timeline){
         TimelineDTO timelineDTO = GSON.fromJson(timeline, TimelineDTO.class);
-        TimelineDTO createdTimeline = FACADE.createTimeline(timelineDTO, thisuser);
+        TimelineDTO createdTimeline = FACADE.createTimeline(timelineDTO, username);
         return Response.ok().entity(GSON.toJson(createdTimeline)).build();
     }
 

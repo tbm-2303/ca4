@@ -19,49 +19,47 @@ public class TimelineFacade {
     private static EntityManagerFactory emf;
 
 
-    private TimelineFacade(){
+    private TimelineFacade() {
 
     }
 
-    public static TimelineFacade getTimelineFacade(EntityManagerFactory _emf){
-        if (instance == null){
-            emf=_emf;
+    public static TimelineFacade getTimelineFacade(EntityManagerFactory _emf) {
+        if (instance == null) {
+            emf = _emf;
             instance = new TimelineFacade();
         }
         return instance;
     }
 
-    private EntityManager getEntityManager(){
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
     //Test er lavet og virker, men ikke på deployment
-    public TimelineDTO createTimeline(TimelineDTO timelineDTO, String username) throws IllegalStateException{
+    public TimelineDTO createTimeline(TimelineDTO timelineDTO, String username) throws IllegalStateException {
         EntityManager em = emf.createEntityManager();
 
         Timeline timeline = new Timeline(timelineDTO);
-        for (Spot spot :timelineDTO.getSpotList()) {
-            timeline.addSpot(spot);
+        for (SpotDTO spot : timelineDTO.getSpotList()) {
+            timeline.addSpot(new Spot(spot));
         }
         //
         User user1 = em.find(User.class, username);
         user1.addTimeline(timeline);
 
-        try{
+        try {
             em.getTransaction().begin();
             em.merge(user1);
             em.persist(timeline);
-            for (Spot spot :timeline.getSpotList()) {//persist every spot associated with the timeline.
+            for (Spot spot : timeline.getSpotList()) {//persist every spot associated with the timeline.
                 em.persist(spot);
             }
             em.getTransaction().commit();
-        }finally {
+        } finally {
             em.close();
         }
         return new TimelineDTO(timeline);
     }
-
-
 
 
     //Sprint 2
@@ -78,7 +76,7 @@ public class TimelineFacade {
     }*/
 
     //Test er lavet og virker
-    public List<TimelineDTO> getAll(User user){
+    public List<TimelineDTO> getAll(User user) {
         EntityManager em = emf.createEntityManager();
         try {
             User user1 = em.find(User.class, user.getUserName());
@@ -87,13 +85,13 @@ public class TimelineFacade {
             query.setParameter("username", username);
             List<Timeline> timelines = query.getResultList();
             return TimelineDTO.getDtos(timelines);
-        }finally {
+        } finally {
             em.close();
         }
     }
 
     //test mangler
-    public Long getTimelineCount(){
+    public Long getTimelineCount() {
         EntityManager em = emf.createEntityManager();
         try {
             Long timelineCount = (Long) em.createQuery("SELECT COUNT(t) FROM Timeline t").getSingleResult();
@@ -105,7 +103,7 @@ public class TimelineFacade {
     }
 
     //test virker
-    public String editInterval(Integer id, String startDate, String endDate){
+    public String editInterval(Integer id, String startDate, String endDate) {
         EntityManager em = emf.createEntityManager();
         try {
             TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.id = :id", Timeline.class);
@@ -125,17 +123,16 @@ public class TimelineFacade {
         //Timeline
     }
 
-    public TimelineDTO seeTimeline(Integer id){
+    public TimelineDTO seeTimeline(Integer id) {
         //get the timeline from id with select t from....
         EntityManager em = emf.createEntityManager();
-        try{
+        try {
             TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.id = :id", Timeline.class);
             query.setParameter("id", id);
             Timeline timeline = query.getSingleResult();
             return new TimelineDTO(timeline);
 
-        }
-        finally {
+        } finally {
             em.close();
         }
         //set the result to a dto
@@ -143,14 +140,13 @@ public class TimelineFacade {
     }
 
     //test og endpoint mangler
-    public String deleteTimeline(int id){
+    public String deleteTimeline(int id) {
         EntityManager em = emf.createEntityManager();
         Timeline timeline = em.find(Timeline.class, id);
-        if(timeline == null){
+        if (timeline == null) {
             throw new WebApplicationException("The timeline does not exist");
-        }
-        else{
-            try{
+        } else {
+            try {
                 em.getTransaction().begin();
                 TypedQuery<Spot> spotQuery = em.createQuery("DELETE FROM Spot s WHERE s.timeline.id = :id", Spot.class);
                 spotQuery.setParameter("id", id);
@@ -159,8 +155,7 @@ public class TimelineFacade {
                 query.setParameter("id", id);
                 query.executeUpdate();
                 em.getTransaction().commit();
-            }
-            finally {
+            } finally {
                 em.close();
             }
         }
