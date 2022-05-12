@@ -1,5 +1,7 @@
 package entities;
 
+import dtos.SpotDTO;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -41,7 +43,13 @@ public class Spot  implements Serializable {
         this.timeline = timeline;
     }
 
-
+    public Spot(SpotDTO spotDTO){
+        this.name = spotDTO.getName();
+        this.description = spotDTO.getDescription();
+        this.timeStamp = spotDTO.getTimestamp();
+        this.location = spotDTO.getLocation();
+        this.timeline = spotDTO.getTimeline();
+    }
 
 
     //gettere and settere

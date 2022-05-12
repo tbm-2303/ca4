@@ -37,22 +37,16 @@ public class TimelineResource {
         return "{hello}";  
     }
 
-
     @POST
     @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_JSON})
     @Path("/create")
-    public String createTimeline(String timeline){
+    @RolesAllowed("user")
+    public Response createTimeline(String timeline){
+        String thisuser = securityContext.getUserPrincipal().getName();
         TimelineDTO timelineDTO = GSON.fromJson(timeline, TimelineDTO.class);
-        TimelineDTO createdTimeline = FACADE.createTimeline(timelineDTO);
-        return GSON.toJson(createdTimeline);
+        TimelineDTO createdTimeline = FACADE.createTimeline(timelineDTO, thisuser);
+        return Response.ok().entity(GSON.toJson(createdTimeline)).build();
+    }
 
-    }
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    @RolesAllowed("admin")
-    @Path("/allTimelines")
-    public String getAllTimelines(User u){
-        List<TimelineDTO> timelineDTOList = FACADE.getAll(u);
-        return "All timelines: " + timelineDTOList;
-    }
 }

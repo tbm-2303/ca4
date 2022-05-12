@@ -1,5 +1,6 @@
 package facades;
 
+import dtos.SpotDTO;
 import dtos.TimelineDTO;
 import entities.Spot;
 import entities.Timeline;
@@ -35,19 +36,33 @@ public class TimelineFacade {
     }
 
     //Test er lavet og virker, men ikke på deployment
-    public TimelineDTO createTimeline(TimelineDTO timelineDTO) throws IllegalStateException{
-        Timeline timeline = new Timeline(timelineDTO.getName(), timelineDTO.getDescription(), timelineDTO.getStartDate(),
-                timelineDTO.getEndDate(), timelineDTO.getUser());
-        EntityManager em = getEntityManager();
+    public TimelineDTO createTimeline(TimelineDTO timelineDTO, String username) throws IllegalStateException{
+        EntityManager em = emf.createEntityManager();
+
+        Timeline timeline = new Timeline(timelineDTO);
+        for (Spot spot :timelineDTO.getSpotList()) {
+            timeline.addSpot(spot);
+        }
+        //
+        User user1 = em.find(User.class, username);
+        user1.addTimeline(timeline);
+
         try{
             em.getTransaction().begin();
+            em.merge(user1);
             em.persist(timeline);
+            for (Spot spot :timeline.getSpotList()) {//persist every spot associated with the timeline.
+                em.persist(spot);
+            }
             em.getTransaction().commit();
         }finally {
             em.close();
         }
         return new TimelineDTO(timeline);
     }
+
+
+
 
     //Sprint 2
     /*public TimelineDTO deleteTimeline(Integer id){

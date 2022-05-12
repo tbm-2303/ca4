@@ -26,56 +26,7 @@ public class UserResource {
     @Context
     private UriInfo context;
 
-    //test er ikke lavet
-    @POST
-    @Path("/createuser")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    public String createUser(String user){
-        UserDTO userDTO = GSON.fromJson(user,UserDTO.class);
-        List<Role> roles = new ArrayList<>();
-        Role role = new Role("basic");
-        roles.add(role);
-        userDTO.setRoleList(roles);
-        UserDTO createdUser = FACADE.create(userDTO);
-        return GSON.toJson(createdUser);
-    }
-
-    @POST
-    @Path("/createadmin")
-    @RolesAllowed("admin")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    public String createAdmin(String user){
-        UserDTO userDTO = GSON.fromJson(user, UserDTO.class);
-        List<Role> roles = new ArrayList<>();
-        Role role = new Role("admin");
-        roles.add(role);
-        userDTO.setRoleList(roles);
-        UserDTO createdUser = FACADE.create(userDTO);
-        return GSON.toJson(createdUser);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/user")
-    @RolesAllowed("basic")
-    public String getFromUser(){
-        String thisUser = securityContext.getUserPrincipal().getName();
-        return "{msg:" + "Hello user:" + thisUser + "}";
-
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/admin")
-    @RolesAllowed("admin")
-    public String getFromAdmin(){
-        String thisAdmin = securityContext.getUserPrincipal().getName();
-        return "{msg:" + "Hello admin:" + thisAdmin + "}";
-
-    }
-
+   
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
@@ -85,24 +36,5 @@ public class UserResource {
     }
 
 
-    @DELETE
-    @Path("{username}")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    @RolesAllowed("admin")
-    public Response delete(@PathParam("username") String username) throws NotFoundException, errorhandling.NotFoundException {
-        UserDTO userDTO = new UserDTO(FACADE.delete(username));
-        return Response.ok().entity(GSON.toJson(userDTO)).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/allUsers")
-    @RolesAllowed("admin")
-    public String getAllUsers(){
-        List<UserDTO>userDTOList = FACADE.getAllUsers();
-        return "All users:" + userDTOList;
-
-    }
 
 }

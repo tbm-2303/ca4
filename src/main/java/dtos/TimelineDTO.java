@@ -14,19 +14,17 @@ public class TimelineDTO {
     private String startDate;
     private String endDate;
     private List<Spot> spotList = new ArrayList<>();
-    private User user;
+    private UserDTO userDTO;
 
     public TimelineDTO() {
     }
 
-    public TimelineDTO(Integer id, String name, String description, String startDate, String endDate, List<Spot> spotList, User user) {
-        this.id = id;
+    public TimelineDTO( String name, String description, String startDate, String endDate, UserDTO userDTO) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.spotList = spotList;
-        this.user = user;
+        this.userDTO = userDTO;
     }
 
     public TimelineDTO(Timeline timeline) {
@@ -36,7 +34,7 @@ public class TimelineDTO {
         this.startDate = timeline.getStartDate();
         this.endDate = timeline.getEndDate();
         this.spotList = timeline.getSpotList();
-        this.user = timeline.getUser();
+        this.userDTO = new UserDTO(timeline.getUser());
     }
 
     public static List<TimelineDTO> getDtos(List<Timeline> timelines) {
@@ -95,12 +93,12 @@ public class TimelineDTO {
         this.spotList = spotList;
     }
 
-    public User getUser() {
-        return user;
+    public UserDTO getUser() {
+        return userDTO;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserDTO user) {
+        this.userDTO = userDTO;
     }
 
     @Override
@@ -112,7 +110,7 @@ public class TimelineDTO {
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", spotList=" + spotList +
-                ", user=" + user +
+                ", user=" + userDTO +
                 '}';
     }
 }

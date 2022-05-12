@@ -34,21 +34,12 @@ public class Timeline implements Serializable {
     public Timeline(){
 
     }
-    public Timeline(String name, String description, String startDate, String endDate, List<Spot> spotList, User user){
+    public Timeline(String name, String description, String startDate, String endDate){
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.spotList = spotList;
-        this.user = user;
-    }
 
-    public Timeline(String name, String description, String startDate, String endDate, User user){
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.user = user;
     }
 
     public Timeline(TimelineDTO timelineDTO){
@@ -56,8 +47,6 @@ public class Timeline implements Serializable {
         this.description = timelineDTO.getDescription();
         this.startDate = timelineDTO.getStartDate();
         this.endDate = timelineDTO.getEndDate();
-        this.spotList = timelineDTO.getSpotList();
-        this.user = timelineDTO.getUser();
     }
 
 
@@ -130,5 +119,10 @@ public class Timeline implements Serializable {
                 ", spotList="  +
                 ", user=" + user +
                 '}';
+    }
+
+    public void addSpot(Spot spot) {
+        spotList.add(spot);
+        spot.setTimeline(this);
     }
 }
