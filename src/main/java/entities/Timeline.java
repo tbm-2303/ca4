@@ -49,7 +49,6 @@ public class Timeline implements Serializable {
         this.description = timelineDTO.getDescription();
         this.startDate = timelineDTO.getStartDate();
         this.endDate = timelineDTO.getEndDate();
-        this.user = new User(timelineDTO.getUser());
     }
 
 
