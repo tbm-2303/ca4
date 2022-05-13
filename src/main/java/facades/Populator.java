@@ -35,6 +35,13 @@ public class Populator {
             System.out.println("description : "+tl.getDescription());
 
         }
+        List<UserDTO> userDTOS = userFacade.getAllUsers();
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (UserDTO x : userDTOS) {
+            stringBuilder.append(x.toString()).append("\n");
+        }
+        System.out.println(stringBuilder.toString());
     }
     
     public static void main(String[] args) {

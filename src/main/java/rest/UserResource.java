@@ -28,7 +28,7 @@ public class UserResource {
     @Context
     private UriInfo context;
 
-    
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
@@ -39,6 +39,7 @@ public class UserResource {
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
+    @Path("/all")
     public Response getAllUsers() throws EntityNotFoundException {
         List<UserDTO> userDTOS = FACADE.getAllUsers();
         return Response
