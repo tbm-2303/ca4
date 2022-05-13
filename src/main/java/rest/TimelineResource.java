@@ -55,9 +55,6 @@ public class TimelineResource {
                 .ok()
                 .entity(GSON.toJson(timelineDTOS))
                 .build();
-
-
-
     }
 
     @Path("count")

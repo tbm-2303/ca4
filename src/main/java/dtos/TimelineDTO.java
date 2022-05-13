@@ -35,11 +35,6 @@ public class TimelineDTO {
         this.description = t.getDescription();
         this.startDate = t.getStartDate();
         this.endDate = t.getEndDate();
-        if (!t.getSpotList().isEmpty()) {
-            for (Spot spot : t.getSpotList()) {
-                this.spotDTOList.add(new SpotDTO(spot));
-            }
-        }
         this.userName = t.getUser().getUserName();
     }
 
@@ -51,61 +46,20 @@ public class TimelineDTO {
         return timelineDTOS;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
-    }
-
-    public String getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
-    }
-
-    public List<SpotDTO> getSpotList() {
-        return spotDTOList;
-    }
-
-    public void setSpotList(List<SpotDTO> spotList) {
-        this.spotDTOList = spotList;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUser(String userName) {
-        this.userName = userName;
-    }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public String getStartDate() { return startDate; }
+    public void setStartDate(String startDate) { this.startDate = startDate; }
+    public String getEndDate() { return endDate; }
+    public void setEndDate(String endDate) { this.endDate = endDate; }
+    public List<SpotDTO> getSpotList() { return spotDTOList; }
+    public void setSpotList(List<SpotDTO> spotList) { this.spotDTOList = spotList; }
+    public String getUserName() { return userName; }
+    public void setUser(String userName) { this.userName = userName; }
 
     @Override
     public String toString() {
@@ -115,7 +69,6 @@ public class TimelineDTO {
                 ", description='" + description + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
-                ", spotList=" + spotDTOList +
                 ", user=" + userName +
                 '}';
     }

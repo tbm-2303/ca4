@@ -107,7 +107,6 @@ public class Timeline implements Serializable {
                 ", description='" + description + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
-                ", spotList="  +
                 ", user=" + user +
                 '}';
     }
