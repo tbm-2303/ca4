@@ -28,13 +28,13 @@ public class UserResource {
     @Context
     private UriInfo context;
 
-   
+    
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public String count(){
-        //String count =
-        return "hej med dig";
+       Long count = FACADE.getUserCount();
+        return "{\"count\":"+count+"}";
     }
 
     @GET
