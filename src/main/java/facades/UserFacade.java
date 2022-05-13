@@ -15,6 +15,7 @@ import security.errorhandling.AuthenticationException;
 import utils.EMF_Creator;
 import utils.Utility;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -59,6 +60,18 @@ public class UserFacade {
         return user;
     }
 
+    public List<UserDTO> getAllUsers() throws EntityNotFoundException {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<User> typedQueryUser
+                = em.createQuery("SELECT u FROM User u", User.class);
+        List<User> userList = typedQueryUser.getResultList();
+
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (User u : userList) {
+            userDTOS.add(new UserDTO(u));
+        }
+        return userDTOS;
+    }
 
     //dette er kun for alm bruger(altid user role)
     public UserDTO create(UserDTO userDTO){
@@ -131,11 +144,6 @@ public class UserFacade {
 
 
 
-    public List<UserDTO> getAllUsers(){
-        EntityManager em = emf.createEntityManager();
-        TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
-        List<User> userList = query.getResultList();
-        return UserDTO.getDtos(userList);
-    }
+
 
 }

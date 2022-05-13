@@ -37,13 +37,14 @@ public class UserResource {
         return "hej med dig";
     }
 
-    //get Person by id
-    @Path("{username}")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getPersonByID(@PathParam("username") String username) throws EntityNotFoundException, NotFoundException {
-        UserDTO userDTO = FACADE.getUserByName(username);
-        return Response.ok().entity(GSON.toJson(userDTO)).build();
+    public Response getAllUsers() throws EntityNotFoundException {
+        List<UserDTO> userDTOS = FACADE.getAllUsers();
+        return Response
+                .ok("SUCCESS")
+                .entity(GSON.toJson(userDTOS))
+                .build();
     }
 
 }
