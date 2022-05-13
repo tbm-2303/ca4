@@ -43,7 +43,7 @@ public class UserResource {
     public Response getAllUsers() throws EntityNotFoundException {
         List<UserDTO> userDTOS = FACADE.getAllUsers();
         return Response
-                .ok("SUCCESS")
+                .ok()
                 .entity(GSON.toJson(userDTOS))
                 .build();
     }
