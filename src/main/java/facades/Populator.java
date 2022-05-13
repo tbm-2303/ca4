@@ -38,7 +38,7 @@ public class Populator {
         for (Timeline tl : timelineList) {
             stringBuilder3.append(tl.toString()).append("\n");
         }
-        System.out.println("check hvordan query ser ud:"+ stringBuilder3.toString());
+        System.out.println("check hvordan query ser ud:"+"\n"+ stringBuilder3.toString());
 
 
 
