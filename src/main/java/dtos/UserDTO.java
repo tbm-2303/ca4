@@ -14,10 +14,9 @@ public class UserDTO {
     public UserDTO(){
 
     }
-    public UserDTO(String userName, String password, List<Role> roleList){
+    public UserDTO(String userName, String password){
         this.userName = userName;
         this.password = password;
-        this.roleList = roleList;
     }
 
     public UserDTO(User user){
