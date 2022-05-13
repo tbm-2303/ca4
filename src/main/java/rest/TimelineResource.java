@@ -38,7 +38,7 @@ public class TimelineResource {
     //det skal sættes i frontenden - laves med en metode
 
 //get amount of persons
-    @Path("test")
+    @Path("/test")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String test() {
@@ -46,7 +46,7 @@ public class TimelineResource {
     }
 
 
-    @Path("all")
+    @Path("/all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response  getAll() throws EntityNotFoundException {
@@ -56,7 +56,7 @@ public class TimelineResource {
                 .entity(GSON.toJson(timelines))
                 .build();
     }
-    @Path("all2")
+    @Path("/all2")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response  getAll2() throws EntityNotFoundException {
@@ -66,8 +66,21 @@ public class TimelineResource {
                 .entity(GSON.toJson(timelineDTOS))
                 .build();
     }
+    @Path("/eske")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response eske() {
+        List<TimelineDTO> timelineDTOS = new ArrayList<>();
+        for (Timeline t : FACADE.getAll()) {
+            timelineDTOS.add(new TimelineDTO(t));
+        }
+        return Response
+                .ok()
+                .entity(GSON.toJson(timelineDTOS))
+                .build();
+    }
 
-    @Path("count")
+    @Path("/count")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public String getTimelineCount() {
