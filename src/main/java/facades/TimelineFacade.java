@@ -38,6 +38,46 @@ public class TimelineFacade {
     }
 
 
+    public List<Timeline> getAll() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t", Timeline.class);
+        return query.getResultList();
+    }
+
+
+    public long getCount() {
+        EntityManager em = emf.createEntityManager();
+        try{
+            return (Long)em.createQuery("SELECT COUNT(t) FROM Timeline t").getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public Timeline createTimeline(Timeline timeline) throws IllegalStateException {
         EntityManager em = emf.createEntityManager();
         try {

@@ -43,50 +43,28 @@ public class TimelineResource {
         return "{hello}";  
     }
 
-    @POST
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    @Path("/create")
-    public Response createTimeline(String jsonContext) throws NotFoundException {
-        TimelineDTO timelineDTO = GSON.fromJson(jsonContext, TimelineDTO.class);
-        User user = userFacade.getUserByName(timelineDTO.getUserName());
-        List<Spot> spotlist = new ArrayList<>();//spotlist is empty when u intitially create a timeline.
 
-        Timeline timeline = new Timeline(
-                timelineDTO.getName(),
-                timelineDTO.getDescription(),
-                timelineDTO.getStartDate(),
-                timelineDTO.getEndDate(),
-                spotlist,
-                user);
 
-        Timeline createdTimeline = FACADE.createTimeline(timeline);
 
-        TimelineDTO createdDTO = new TimelineDTO(createdTimeline);
-        return Response
-                .ok("SUCCESS")
-                .entity(GSON.toJson(createdDTO))
-                .build();
-    }
-    @Path("{id}")
+    @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getById(@PathParam("id") Long id) throws NotFoundException {
-        TimelineDTO found = new TimelineDTO(FACADE.getById(id));
+    public Response getAll() {
+        List<TimelineDTO> dtoList = new ArrayList<>();
+        for (Timeline tl : FACADE.getAll()) {
+            dtoList.add(new TimelineDTO(tl));
+        }
         return Response
                 .ok("SUCCESS")
-                .entity(GSON.toJson(found))
+                .entity(GSON.toJson(dtoList))
                 .build();
     }
 
-    @Path("{id}")
-    @DELETE
+    @Path("count")
+    @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response delete(@PathParam("id") Long id) throws NotFoundException {
-        TimelineDTO deleted = new TimelineDTO(FACADE.deleteTimeline(id));
-        return Response
-                .ok("SUCCESS")
-                .entity(GSON.toJson(deleted))
-                .build();
+    public String getQuizCount() {
+        long count = FACADE.getCount();
+        return "{\"count\":"+count+"}";
     }
 }
