@@ -44,6 +44,12 @@ public class TimelineFacade {
         return query.getResultList();
     }
 
+    public List<TimelineDTO> getAll2() {
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t", Timeline.class);
+        List<Timeline> timelineList = query.getResultList();
+        return TimelineDTO.getDtos(timelineList);
+    }
 
     public long getCount() {
         EntityManager em = emf.createEntityManager();

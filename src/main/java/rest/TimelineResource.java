@@ -43,21 +43,18 @@ public class TimelineResource {
         return "{hello}";  
     }
 
-
-
+   
 
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response getAll() {
-        List<TimelineDTO> dtoList = new ArrayList<>();
-        for (Timeline tl : FACADE.getAll()) {
-            dtoList.add(new TimelineDTO(tl));
+    public String  getAll() {
+        List<TimelineDTO> timelineList = FACADE.getAll2();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (TimelineDTO x : timelineList) {
+            stringBuilder.append(x.toString()).append("\n");
         }
-        return Response
-                .ok("SUCCESS")
-                .entity(GSON.toJson(dtoList))
-                .build();
+        return stringBuilder.toString();
     }
 
     @Path("count")

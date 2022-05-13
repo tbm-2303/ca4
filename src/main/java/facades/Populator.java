@@ -26,6 +26,13 @@ public class Populator {
         RoleFacade roleFacade = RoleFacade.getRoleFacade(emf);
         TimelineFacade timelineFacade = TimelineFacade.getTimelineFacade(emf);
         SpotFacade spotFacade = SpotFacade.getSpotFacade(emf);
+
+        System.out.println("hello");
+        List<Timeline> timelineList = timelineFacade.getAll();
+        for (Timeline tl : timelineList) {
+            System.out.println(tl.getId());
+
+        }
     }
     
     public static void main(String[] args) {
