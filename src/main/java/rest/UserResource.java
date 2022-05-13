@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.UserDTO;
 import entities.Role;
+import errorhandling.NotFoundException;
 import facades.UserFacade;
 import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.awt.*;
@@ -35,6 +37,13 @@ public class UserResource {
         return "hej med dig";
     }
 
-
+    //get Person by id
+    @Path("{username}")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getPersonByID(@PathParam("username") String username) throws EntityNotFoundException, NotFoundException {
+        UserDTO userDTO = FACADE.getUserByName(username);
+        return Response.ok().entity(GSON.toJson(userDTO)).build();
+    }
 
 }

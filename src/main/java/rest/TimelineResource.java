@@ -43,7 +43,7 @@ public class TimelineResource {
         return "{hello}";  
     }
 
-   
+
 
     @Path("all")
     @GET
@@ -60,7 +60,7 @@ public class TimelineResource {
     @Path("count")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String getQuizCount() {
+    public String getTimelineCount() {
         long count = FACADE.getCount();
         return "{\"count\":"+count+"}";
     }

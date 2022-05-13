@@ -30,7 +30,9 @@ public class Populator {
         System.out.println("hello");
         List<Timeline> timelineList = timelineFacade.getAll();
         for (Timeline tl : timelineList) {
-            System.out.println(tl.getId());
+            System.out.println("id: "+tl.getId());
+            System.out.println("endDate: "+tl.getEndDate());
+            System.out.println("description : "+tl.getDescription());
 
         }
     }

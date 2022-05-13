@@ -7,6 +7,7 @@ import entities.Timeline;
 import entities.User;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 
 import errorhandling.NotFoundException;
@@ -58,16 +59,6 @@ public class UserFacade {
         return user;
     }
 
-    public JsonObject getRandomCatFact() {
-        return Utility.fetchData("https://catfact.ninja/fact");
-    }
-
-    public JsonObject getRandomJoke() {
-        return Utility.fetchData("https://api.chucknorris.io/jokes/random");
-    }
-
-
-    //-------------------------------------------nye metoder
 
     //dette er kun for alm bruger(altid user role)
     public UserDTO create(UserDTO userDTO){
@@ -85,19 +76,14 @@ public class UserFacade {
         return new UserDTO(user);
     }
 
-    public User getUserByName(String username) throws NotFoundException {
+    public UserDTO getUserByName(String username) throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
-        User user;
-        try {
-            user = em.find(User.class, username);
-            if (user == null) {
-                throw new NotFoundException("No user with this name exists");
-            }
-        } finally {
-            em.close();
-        }
-        return user;
+        User user = em.find(User.class, username);
+        if (user == null)
+            throw new EntityNotFoundException("No user with this name exists");
+        return new UserDTO(user);
     }
+
     public Long getUserCount(){
         EntityManager em = getEntityManager();
         try{
@@ -106,6 +92,42 @@ public class UserFacade {
             em.close();
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public JsonObject getRandomCatFact() {
+        return Utility.fetchData("https://catfact.ninja/fact");
+    }
+
+    public JsonObject getRandomJoke() {
+        return Utility.fetchData("https://api.chucknorris.io/jokes/random");
+    }
+
+
+    //-------------------------------------------nye metoder
+
+
 
 
 
