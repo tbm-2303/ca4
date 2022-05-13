@@ -22,7 +22,6 @@ public class UserDTO {
     public UserDTO(User user){
         this.userName = user.getUserName();
         this.password = user.getUserPass();
-        this.roleList = user.getRoleList();
     }
 
     public static List<UserDTO> getDtos(List<User> user) {
