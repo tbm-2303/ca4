@@ -82,7 +82,7 @@ public class TimelineResource {
         Long tmp = 1L;
         TimelineDTO found = new TimelineDTO(FACADE.getById(tmp));
         return Response
-                .ok("SUCCESS")
+                .ok()
                 .entity(GSON.toJson(found))
                 .build();
     }
