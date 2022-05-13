@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dtos.TimelineDTO;
+import dtos.UserDTO;
 import entities.Spot;
 import entities.Timeline;
 import entities.User;
@@ -48,13 +49,15 @@ public class TimelineResource {
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public String  getAll() {
-        List<TimelineDTO> timelineList = FACADE.getAll2();
-        StringBuilder stringBuilder = new StringBuilder();
-        for (TimelineDTO x : timelineList) {
-            stringBuilder.append(x.toString()).append("\n");
-        }
-        return stringBuilder.toString();
+    public Response  getAll() {
+        List<TimelineDTO> timelineDTOS = FACADE.getAll2();
+        return Response
+                .ok()
+                .entity(GSON.toJson(timelineDTOS))
+                .build();
+
+
+
     }
 
     @Path("count")

@@ -35,12 +35,11 @@ public class Timeline implements Serializable {
     public Timeline(){
 
     }
-    public Timeline(String name, String description, String startDate, String endDate, List<Spot> spots, User user){
+    public Timeline(String name, String description, String startDate, String endDate, User user){
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.spotList = spots;
         this.user = user;
     }
 

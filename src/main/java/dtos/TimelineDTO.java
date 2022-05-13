@@ -19,12 +19,11 @@ public class TimelineDTO {
     public TimelineDTO() {
     }
 
-    public TimelineDTO(String name, String description, String startDate, String endDate, List<SpotDTO> spotList, String userName) {
+    public TimelineDTO(String name, String description, String startDate, String endDate, String userName) {
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.spotDTOList = spotList;
         this.userName = userName;
     }
 
@@ -36,8 +35,10 @@ public class TimelineDTO {
         this.description = t.getDescription();
         this.startDate = t.getStartDate();
         this.endDate = t.getEndDate();
-        for (Spot spot : t.getSpotList()) {
-            this.spotDTOList.add(new SpotDTO(spot));
+        if (!t.getSpotList().isEmpty()) {
+            for (Spot spot : t.getSpotList()) {
+                this.spotDTOList.add(new SpotDTO(spot));
+            }
         }
         this.userName = t.getUser().getUserName();
     }

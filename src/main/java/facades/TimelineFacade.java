@@ -2,6 +2,7 @@ package facades;
 
 import dtos.SpotDTO;
 import dtos.TimelineDTO;
+import dtos.UserDTO;
 import entities.Spot;
 import entities.Timeline;
 import entities.User;
@@ -13,6 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.WebApplicationException;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TimelineFacade {
@@ -46,9 +48,15 @@ public class TimelineFacade {
 
     public List<TimelineDTO> getAll2() {
         EntityManager em = emf.createEntityManager();
-        TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t", Timeline.class);
+        TypedQuery<Timeline> query =
+                em.createQuery("SELECT t FROM Timeline t", Timeline.class);
         List<Timeline> timelineList = query.getResultList();
-        return TimelineDTO.getDtos(timelineList);
+
+        List<TimelineDTO> timelineDTOS = new ArrayList<>();
+        for (Timeline tl : timelineList) {
+            timelineDTOS.add(new TimelineDTO(tl));
+        }
+        return timelineDTOS;
     }
 
     public long getCount() {
