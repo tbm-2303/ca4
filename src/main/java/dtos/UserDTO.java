@@ -17,13 +17,12 @@ public class UserDTO {
     public UserDTO(String userName, String password, List<Role> roleList){
         this.userName = userName;
         this.password = password;
-        this.roleList = roleList;
     }
 
     public UserDTO(User user){
         this.userName = user.getUserName();
         this.password = user.getUserPass();
-        this.roleList = user.getRoleList();
+
     }
 
     public static List<UserDTO> getDtos(List<User> user) {
@@ -62,7 +61,7 @@ public class UserDTO {
 
     public String toString(){
         return "UserDTO{" +
-                ", username:" + userName +
+                "username:" + userName +
                 ", password:" + password +
                "}";
     }

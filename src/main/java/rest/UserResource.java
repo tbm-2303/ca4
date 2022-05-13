@@ -33,7 +33,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/count")
     public String count(){
-       Long count = FACADE.getUserCount();
+        Long count = FACADE.getUserCount();
         return "{\"count\":"+count+"}";
     }
 
