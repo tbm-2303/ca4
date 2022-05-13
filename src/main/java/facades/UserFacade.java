@@ -85,12 +85,19 @@ public class UserFacade {
         return new UserDTO(user);
     }
 
-    public UserDTO getById(String username) {
+    public User getUserByName(String username) throws NotFoundException {
         EntityManager em = emf.createEntityManager();
-        User user = em.find(User.class, username);
-        return new UserDTO(user);
+        User user;
+        try {
+            user = em.find(User.class, username);
+            if (user == null) {
+                throw new NotFoundException("No user with this name exists");
+            }
+        } finally {
+            em.close();
+        }
+        return user;
     }
-
     public Long getUserCount(){
         EntityManager em = getEntityManager();
         try{

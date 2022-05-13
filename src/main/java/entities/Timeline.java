@@ -25,21 +25,23 @@ public class Timeline implements Serializable {
     @Column(name = "endDate", nullable = false, length = 30)
     private String endDate;
 
-    @OneToMany(mappedBy = "timeline", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "timeline", cascade = {CascadeType.ALL})
     private List<Spot> spotList = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "username")
     private User user;
 
     public Timeline(){
 
     }
-    public Timeline(String name, String description, String startDate, String endDate){
+    public Timeline(String name, String description, String startDate, String endDate, List<Spot> spots, User user){
         this.name = name;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-
+        this.spotList = spots;
+        this.user = user;
     }
 
     public Timeline(TimelineDTO timelineDTO){
@@ -47,66 +49,57 @@ public class Timeline implements Serializable {
         this.description = timelineDTO.getDescription();
         this.startDate = timelineDTO.getStartDate();
         this.endDate = timelineDTO.getEndDate();
+        this.user = new User(timelineDTO.getUser());
     }
 
 
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-
     public void setDescription(String description) {
         this.description = description;
     }
-
     public String getStartDate() {
         return startDate;
     }
-
     public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
-
     public String getEndDate() {
         return endDate;
     }
-
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
-
     public List<Spot> getSpotList() {
         return spotList;
     }
-
     public void setSpotList(List<Spot> spotList) {
         this.spotList = spotList;
     }
-
     public User getUser() {
         return user;
     }
-
     public void setUser(User user) {
         this.user = user;
     }
 
-
+    public void addSpot(Spot spot) {
+        spotList.add(spot);
+        spot.setTimeline(this);
+    }
 
     @Override
     public String toString() {
@@ -119,10 +112,5 @@ public class Timeline implements Serializable {
                 ", spotList="  +
                 ", user=" + user +
                 '}';
-    }
-
-    public void addSpot(Spot spot) {
-        spotList.add(spot);
-        spot.setTimeline(this);
     }
 }

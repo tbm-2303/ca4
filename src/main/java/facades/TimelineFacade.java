@@ -5,12 +5,14 @@ import dtos.TimelineDTO;
 import entities.Spot;
 import entities.Timeline;
 import entities.User;
+import errorhandling.NotFoundException;
 
 import javax.enterprise.inject.Typed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.WebApplicationException;
+import java.sql.Time;
 import java.util.List;
 
 public class TimelineFacade {
@@ -35,30 +37,30 @@ public class TimelineFacade {
         return emf.createEntityManager();
     }
 
-    //Test er lavet og virker, men ikke på deployment
-    public TimelineDTO createTimeline(TimelineDTO timelineDTO, String username) throws IllegalStateException {
+
+    public Timeline createTimeline(Timeline timeline) throws IllegalStateException {
         EntityManager em = emf.createEntityManager();
-
-        Timeline timeline = new Timeline(timelineDTO);
-        for (SpotDTO spot : timelineDTO.getSpotList()) {
-            timeline.addSpot(new Spot(spot));
-        }
-        //
-        User user1 = em.find(User.class, username);
-        user1.addTimeline(timeline);
-
         try {
             em.getTransaction().begin();
-            em.merge(user1);
             em.persist(timeline);
-            for (Spot spot : timeline.getSpotList()) {//persist every spot associated with the timeline.
-                em.persist(spot);
-            }
             em.getTransaction().commit();
         } finally {
             em.close();
         }
-        return new TimelineDTO(timeline);
+        return timeline;
+    }
+    public Timeline getById(Long id) throws NotFoundException {
+        EntityManager em = emf.createEntityManager();
+        Timeline timeline;
+        try {
+            timeline = em.find(Timeline.class, id);
+            if (timeline == null) {
+                throw new NotFoundException();
+            }
+        } finally {
+            em.close();
+        }
+        return timeline;
     }
 
 
@@ -140,26 +142,27 @@ public class TimelineFacade {
     }
 
     //test og endpoint mangler
-    public String deleteTimeline(int id) {
+    public Timeline deleteTimeline(Long id) {
         EntityManager em = emf.createEntityManager();
         Timeline timeline = em.find(Timeline.class, id);
         if (timeline == null) {
             throw new WebApplicationException("The timeline does not exist");
-        } else {
-            try {
-                em.getTransaction().begin();
-                TypedQuery<Spot> spotQuery = em.createQuery("DELETE FROM Spot s WHERE s.timeline.id = :id", Spot.class);
-                spotQuery.setParameter("id", id);
-                spotQuery.executeUpdate();
-                TypedQuery<Timeline> query = em.createQuery("DELETE FROM Timeline t WHERE t.id = :id", Timeline.class);
-                query.setParameter("id", id);
-                query.executeUpdate();
-                em.getTransaction().commit();
+        }
+        try {
+            em.getTransaction().begin();
+            TypedQuery<Spot> spotQuery = em.createQuery("DELETE FROM Spot s WHERE s.timeline.id = :id", Spot.class);
+            spotQuery.setParameter("id", id);
+            spotQuery.executeUpdate();
+            TypedQuery<Timeline> query = em.createQuery("DELETE FROM Timeline t WHERE t.id = :id", Timeline.class);
+            query.setParameter("id", id);
+            query.executeUpdate();
+            em.getTransaction().commit();
+            return timeline;
             } finally {
                 em.close();
             }
         }
 
-        return "The timeline has been deleted with id: " + id;
-    }
+
+
 }

@@ -35,8 +35,8 @@ public class User implements Serializable {
     @ManyToMany
     private List<Role> roleList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<Timeline> timelinelist = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Timeline> timelinelist;
 
 
     public User() {
@@ -71,46 +71,30 @@ public class User implements Serializable {
     public List<Timeline> getTimelinelist() {
         return timelinelist;
     }
-
     public void setTimelinelist(List<Timeline> timelinelist) {
         this.timelinelist = timelinelist;
     }
-
     public String getUserName() {
         return userName;
     }
-
     public void setUserName(String userName) {
         this.userName = userName;
     }
-
     public String getUserPass() {
         return this.userPass;
     }
-
     public void setUserPass(String userPass) {
         this.userPass = userPass;
     }
-
     public List<Role> getRoleList() {
         return roleList;
     }
-
     public void setRoleList(List<Role> roleList) {
         this.roleList = roleList;
     }
-
     public void addRole(Role userRole) {
         roleList.add(userRole);
     }
 
-    public void addTimeline(Timeline timeline) {
-        this.timelinelist.add(timeline);
-        timeline.setUser(this);
-    }
 
-    public void removeTimeline(Timeline timeline) {
-        this.timelinelist.add(timeline);
-        timeline.setUser(this);
-    }
 }

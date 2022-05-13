@@ -14,6 +14,11 @@ public class UserDTO {
     public UserDTO(){
 
     }
+    public UserDTO(String userName, String password, List<Role> roleList){
+        this.userName = userName;
+        this.password = password;
+        this.roleList = roleList;
+    }
 
     public UserDTO(User user){
         this.userName = user.getUserName();

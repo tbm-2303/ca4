@@ -9,13 +9,15 @@ public class RoleDTO {
     String role;
     List<User> userList;
 
+    public RoleDTO (){
+    }
+
     public RoleDTO (Role role){
         this.role = role.getRoleName();
         this.userList = role.getUserList();
     }
 
-    public RoleDTO (){
-    }
+
 
 
     public String getRole() {
