@@ -12,7 +12,9 @@ import dtos.UserDTO;
 import entities.*;
 import utils.EMF_Creator;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -26,6 +28,19 @@ public class Populator {
         RoleFacade roleFacade = RoleFacade.getRoleFacade(emf);
         TimelineFacade timelineFacade = TimelineFacade.getTimelineFacade(emf);
         SpotFacade spotFacade = SpotFacade.getSpotFacade(emf);
+
+
+        EntityManager em = emf.createEntityManager();
+        TypedQuery<Timeline> query =
+                em.createQuery("SELECT t FROM Timeline t", Timeline.class);
+        List<Timeline> timelineList = query.getResultList();
+        StringBuilder stringBuilder3 = new StringBuilder();
+        for (Timeline tl : timelineList) {
+            stringBuilder3.append(tl.toString()).append("\n");
+        }
+        System.out.println("check hvordan query ser ud:"+ stringBuilder3.toString());
+
+
 
 
         List<TimelineDTO> timelineDTOS = timelineFacade.getAll2();

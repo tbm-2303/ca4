@@ -46,11 +46,20 @@ public class TimelineResource {
     }
 
 
-
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     public Response  getAll() throws EntityNotFoundException {
+        List<Timeline> timelines = FACADE.getAll();
+        return Response
+                .ok()
+                .entity(GSON.toJson(timelines))
+                .build();
+    }
+    @Path("all2")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response  getAll2() throws EntityNotFoundException {
         List<TimelineDTO> timelineDTOS = FACADE.getAll2();
         return Response
                 .ok()

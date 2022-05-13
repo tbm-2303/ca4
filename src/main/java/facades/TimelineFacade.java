@@ -51,9 +51,10 @@ public class TimelineFacade {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Timeline> query =
                 em.createQuery("SELECT t FROM Timeline t", Timeline.class);
-        List<Timeline> timelineList = query.getResultList();
+        List<Timeline> timelineList = query.getResultList();//timelines from db
 
         List<TimelineDTO> timelineDTOS = new ArrayList<>();
+
         for (Timeline tl : timelineList) {
             timelineDTOS.add(new TimelineDTO(tl));
         }
@@ -70,8 +71,34 @@ public class TimelineFacade {
     }
 
 
+    public List<TimelineDTO> getAll(User user) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            User user1 = em.find(User.class, user.getUserName());
+            String username = user.getUserName();
+            TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.user.userName = :username", Timeline.class);
+            query.setParameter("username", username);
+            List<Timeline> timelines = query.getResultList();
+            return TimelineDTO.getDtos(timelines);
+        } finally {
+            em.close();
+        }
+    }
 
 
+    public Timeline getById(Long id) throws NotFoundException {
+        EntityManager em = emf.createEntityManager();
+        Timeline timeline;
+        try {
+            timeline = em.find(Timeline.class, id);
+            if (timeline == null) {
+                throw new NotFoundException();
+            }
+        } finally {
+            em.close();
+        }
+        return timeline;
+    }
 
 
 
@@ -104,19 +131,7 @@ public class TimelineFacade {
         }
         return timeline;
     }
-    public Timeline getById(Long id) throws NotFoundException {
-        EntityManager em = emf.createEntityManager();
-        Timeline timeline;
-        try {
-            timeline = em.find(Timeline.class, id);
-            if (timeline == null) {
-                throw new NotFoundException();
-            }
-        } finally {
-            em.close();
-        }
-        return timeline;
-    }
+
 
 
     //Sprint 2
@@ -133,31 +148,9 @@ public class TimelineFacade {
     }*/
 
     //Test er lavet og virker
-    public List<TimelineDTO> getAll(User user) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            User user1 = em.find(User.class, user.getUserName());
-            String username = user.getUserName();
-            TypedQuery<Timeline> query = em.createQuery("SELECT t FROM Timeline t WHERE t.user.userName = :username", Timeline.class);
-            query.setParameter("username", username);
-            List<Timeline> timelines = query.getResultList();
-            return TimelineDTO.getDtos(timelines);
-        } finally {
-            em.close();
-        }
-    }
 
-    //test mangler
-    public Long getTimelineCount() {
-        EntityManager em = emf.createEntityManager();
-        try {
-            Long timelineCount = (Long) em.createQuery("SELECT COUNT(t) FROM Timeline t").getSingleResult();
-            return timelineCount;
-        } finally {
-            em.close();
-        }
 
-    }
+
 
     //test virker
     public String editInterval(Integer id, String startDate, String endDate) {
