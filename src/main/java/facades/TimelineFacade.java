@@ -71,7 +71,33 @@ public class TimelineFacade {
     }
 
 
-    public List<TimelineDTO> getAll(User user) {
+    public Timeline getById(Long id) throws NotFoundException {
+        EntityManager em = emf.createEntityManager();
+        Timeline timeline;
+        try {
+            timeline = em.find(Timeline.class, id);
+            if (timeline == null) {
+                throw new NotFoundException();
+            }
+        } finally {
+            em.close();
+        }
+        return timeline;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public List<TimelineDTO> getAll3(User user) {
         EntityManager em = emf.createEntityManager();
         try {
             User user1 = em.find(User.class, user.getUserName());
@@ -86,19 +112,6 @@ public class TimelineFacade {
     }
 
 
-    public Timeline getById(Long id) throws NotFoundException {
-        EntityManager em = emf.createEntityManager();
-        Timeline timeline;
-        try {
-            timeline = em.find(Timeline.class, id);
-            if (timeline == null) {
-                throw new NotFoundException();
-            }
-        } finally {
-            em.close();
-        }
-        return timeline;
-    }
 
 
 

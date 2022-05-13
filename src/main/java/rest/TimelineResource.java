@@ -66,19 +66,6 @@ public class TimelineResource {
                 .entity(GSON.toJson(timelineDTOS))
                 .build();
     }
-    @Path("/eske")
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    public Response eske() {
-        List<TimelineDTO> timelineDTOS = new ArrayList<>();
-        for (Timeline t : FACADE.getAll()) {
-            timelineDTOS.add(new TimelineDTO(t));
-        }
-        return Response
-                .ok()
-                .entity(GSON.toJson(timelineDTOS))
-                .build();
-    }
 
     @Path("/count")
     @GET
@@ -87,4 +74,29 @@ public class TimelineResource {
         long count = FACADE.getCount();
         return "{\"count\":"+count+"}";
     }
+
+    @Path("/test2")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response getById() throws NotFoundException {
+        Long tmp = 1L;
+        TimelineDTO found = new TimelineDTO(FACADE.getById(tmp));
+        return Response
+                .ok("SUCCESS")
+                .entity(GSON.toJson(found))
+                .build();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
