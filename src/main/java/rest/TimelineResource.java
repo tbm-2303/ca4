@@ -14,6 +14,7 @@ import utils.EMF_Creator;
 
 import javax.annotation.security.RolesAllowed;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ public class TimelineResource {
     @Path("all")
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    public Response  getAll() {
+    public Response  getAll() throws EntityNotFoundException {
         List<TimelineDTO> timelineDTOS = FACADE.getAll2();
         return Response
                 .ok()

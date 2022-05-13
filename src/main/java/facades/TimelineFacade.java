@@ -11,6 +11,7 @@ import errorhandling.NotFoundException;
 import javax.enterprise.inject.Typed;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.WebApplicationException;
 import java.sql.Time;
@@ -46,7 +47,7 @@ public class TimelineFacade {
         return query.getResultList();
     }
 
-    public List<TimelineDTO> getAll2() {
+    public List<TimelineDTO> getAll2() throws EntityNotFoundException {
         EntityManager em = emf.createEntityManager();
         TypedQuery<Timeline> query =
                 em.createQuery("SELECT t FROM Timeline t", Timeline.class);

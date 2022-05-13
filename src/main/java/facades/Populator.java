@@ -27,13 +27,16 @@ public class Populator {
         TimelineFacade timelineFacade = TimelineFacade.getTimelineFacade(emf);
         SpotFacade spotFacade = SpotFacade.getSpotFacade(emf);
 
-        System.out.println("hello");
+
         List<TimelineDTO> timelineDTOS = timelineFacade.getAll2();
         StringBuilder stringBuilder2 = new StringBuilder();
+
         for (TimelineDTO tl : timelineDTOS) {
             stringBuilder2.append(tl.toString()).append("\n");
         }
         System.out.println(stringBuilder2.toString());
+
+
 
         List<UserDTO> userDTOS = userFacade.getAllUsers();
         StringBuilder stringBuilder = new StringBuilder();
