@@ -106,23 +106,7 @@ public class UserFacade {
             em.close();
         }
     }
-    public User delete(String username) throws NotFoundException {
-        EntityManager em = getEntityManager();
-        User user = em.find(User.class, username);
-        if (user == null)
-            throw new NotFoundException("Could not remove Profile with id: "+username);
 
-        em.getTransaction().begin();
-
-        List<Timeline> timelineList = user.getTimelinelist();
-        for (Timeline tl : timelineList) {
-            user.removeTimeline(tl);
-        }
-        em.merge(user);
-        em.remove(user);
-        em.getTransaction().commit();
-        return user;
-    }
 
 
     public List<UserDTO> getAllUsers(){
